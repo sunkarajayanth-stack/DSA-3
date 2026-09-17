@@ -1,86 +1,102 @@
-Project Description
+# Medical Image Optimization Using Matrix Chain Multiplication
 
-Medical Image Optimization Using Matrix Chain Multiplication is an ML-oriented optimization project designed to reduce the computational cost of a sequence of matrix operations used in a simplified medical image-processing and classification pipeline.
+## Project Overview
 
-In medical image analysis, such as X-ray or MRI classification, an input image is converted into numerical features and passed through several transformation and classification stages. These stages can involve multiple matrix multiplications. Although matrix multiplication is associative and produces the same final result regardless of parenthesization, different multiplication orders can require significantly different numbers of scalar operations.
+This project applies the Matrix Chain Multiplication (MCM) dynamic
+programming technique to a medical image processing pipeline.
 
-The project uses Matrix Chain Multiplication (MCM) with Interval Dynamic Programming to determine the most efficient order in which the matrices should be multiplied. The algorithm divides the complete matrix chain into smaller intervals, calculates the minimum cost for each interval, and stores the results in a dynamic programming table.
+The dataset contains 100 public medical image records:
 
-For every interval \(A_i\) to \(A_j\), the algorithm considers all possible split positions \(k\) and calculates:
+- 50 MRI images
+- 50 X-Ray images
 
-$$ m[i][j] = \min_{i\leq k<j} \left( m[i][k]+m[k+1][j]+p_{i-1}p_kp_j \right) $$
+The images are converted into grayscale matrices and resized to
+32 × 32 for matrix-based processing.
 
-The system also maintains a split table to remember the best split position. This allows it to reconstruct the optimal parenthesization, not just the minimum cost.
+## Methodology
 
-Example
+Medical Images
+        ↓
+Image Preprocessing
+        ↓
+Grayscale Conversion
+        ↓
+32 × 32 Matrix
+        ↓
+Image Processing Matrix Chain
+        ↓
+Matrix Chain Multiplication
+        ↓
+Dynamic Programming
+        ↓
+Minimum Scalar Multiplications
 
-Consider a simplified medical-image ML pipeline containing:
+## Matrix Chain
 
-$$ A_1=10\times30 $$ $$ A_2=30\times5 $$ $$ A_3=5\times60 $$
+The image-processing pipeline uses the following compatible matrices:
 
-For these matrices:
+A1 = 32 × 32
+A2 = 32 × 16
+A3 = 16 × 8
+A4 = 8 × 4
 
-Order 1:
+Matrix Chain:
 
-$$ (A_1A_2)A_3 $$
+A1 × A2 × A3 × A4
 
-Cost:
+## Optimization Result
 
-$$ 10(30)(5)+10(5)(60) $$ $$ =1500+3000 $$ $$ =\boxed{4500} $$
+Using Matrix Chain Multiplication:
 
-Order 2:
+- Conventional left-to-right cost: 21,504 scalar multiplications
+- Optimized MCM cost: 6,656 scalar multiplications
+- Scalar multiplications saved: 14,848
 
-$$ A_1(A_2A_3) $$
+The MCM algorithm uses dynamic programming to determine an efficient
+parenthesization of the matrix chain.
 
-Cost:
+## Algorithms
 
-$$ 30(5)(60)+10(30)(60) $$ $$ =9000+18000 $$ $$ =\boxed{27000} $$
+### Matrix Chain Multiplication
 
-Therefore, the algorithm selects:
+The recurrence used is:
 
-$$ \boxed{(A_1A_2)A_3} $$
+dp[i][j] = min(
+    dp[i][k] + dp[k+1][j]
+    + p[i] × p[k+1] × p[j+1]
+)
 
-with only 4,500 scalar multiplications instead of 27,000.
+where k represents the possible split position.
 
-Main Components
-Medical Image Input – represents an X-ray/MRI image entering the ML pipeline.
-Feature Representation – converts image information into numerical matrices.
-Matrix Chain Formation – represents consecutive transformations as compatible matrices.
-Interval Dynamic Programming – evaluates all possible multiplication intervals.
-Cost Table – stores the minimum multiplication cost for each interval.
-Split Table – stores the optimal split position.
-Parenthesization Reconstruction – determines the optimal multiplication order.
-Optimization Result – displays the minimum scalar multiplication cost.
-Algorithm & Complexity
-Component	Algorithm
-Core optimization	Matrix Chain Multiplication
-DP technique	Interval Dynamic Programming
-DP state	\(m[i][j]\)
-Time Complexity	O(n³)
-Space Complexity	O(n²)
+### Complexity
 
-Expected Outcomes
-
-The expected outcomes of Medical Image Optimization Using Matrix Chain Multiplication are:
-
-Optimal Matrix Multiplication Order
-The system will determine the most efficient order for multiplying a sequence of matrices used in the medical image-processing pipeline.
-Reduced Computational Cost
-The algorithm will minimize the number of scalar multiplications required, avoiding unnecessarily expensive multiplication orders.
-Minimum Multiplication Cost
-The system will calculate and display the minimum number of scalar operations required for the given matrix chain.
-
-Optimal Parenthesization
-The application will generate the optimal arrangement of parentheses, such as:
-
-$$ ((A_1A_2)A_3)A_4 $$
-DP Cost and Split Tables
-The implementation will generate a cost table showing the minimum cost for each interval and a split table showing the optimal partition point.
-Efficient ML Processing
-The optimized matrix-operation sequence can help reduce unnecessary computation in a simplified medical image classification pipeline.
-Demonstration of Interval DP
-The project will practically demonstrate the concepts of optimal substructure and overlapping subproblems from CO-3.
-Complexity Analysis
-The project will demonstrate the efficiency of the dynamic programming approach:
 Time Complexity: O(n³)
+
 Space Complexity: O(n²)
+
+## Dataset
+
+The project uses publicly available, de-identified medical images.
+No personally identifying patient information is included in this
+project.
+
+## Files
+
+- `MRI/` - 50 MRI images
+- `XRay/` - 50 X-Ray images
+- `generate_excel.py` - Converts images into matrices and creates Excel data
+- `mcm_optimizer.py` - Performs MCM optimization
+- `Medical_Image_Matrices.xlsx` - Image matrix data
+- `Medical_Image_Matrices_MCM.xlsx` - MCM optimization results
+- `README.md` - Project documentation
+
+## Team
+
+DSA Project
+
+## Note
+
+The 32 × 32 image matrix is a resized representation used for
+matrix-based processing. The additional matrices in the processing
+chain represent stages of the image-processing pipeline and are not
+claimed to be separate patient scans.
