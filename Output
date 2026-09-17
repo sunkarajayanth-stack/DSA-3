@@ -1,0 +1,49 @@
+========== OPTIMIZATION RESULT ==========
+
+Minimum scalar multiplications:
+144640
+
+Optimal parenthesization:
+((A1 × A2) × (A3 × A4))
+
+Final ML output matrix shape:
+(1, 10)
+
+Program completed successfully.
+
+WORKFLOW OF OUTPUT
+
+Chest X-Ray
+     ↓
+32 × 32 grayscale
+     ↓
+1024 features
+     ↓
+A1 × A2 × A3 × A4
+     ↓
+Interval DP
+     ↓
+Minimum cost = 144640
+     ↓
+Optimal order = ((A1 × A2) × (A3 × A4))
+     ↓
+10-dimensional ML output
+
+╔════════════════════════════════════════════════════╗
+║       MEDICAL IMAGE OPTIMIZATION RESULT            ║
+╠════════════════════════════════════════════════════╣
+║ Input Image       : chest_xray.jpg                 ║
+║ Image Size        : 32 × 32                        ║
+║ Feature Size      : 1024                           ║
+║ Number of Matrices: 4                              ║
+║                                                    ║
+║ Minimum Cost      : 144,640 scalar multiplications ║
+║                                                    ║
+║ Optimal Order:                                     ║
+║ ((A1 × A2) × (A3 × A4))                            ║
+║                                                    ║
+║ Final Output      : 1 × 10 feature vector         ║
+║                                                    ║
+║ Time Complexity   : O(n³)                          ║
+║ Space Complexity  : O(n²)                          ║
+╚════════════════════════════════════════════════════╝
